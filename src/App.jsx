@@ -14,14 +14,28 @@ import Trainer from './components/Trainer';
 import ConsultationForm from './components/ConsultationForm';
 import Footer from './components/Footer';
 import FloatingSocials from './components/FloatingSocials';
+import TermsAndConditions from './components/TermsAndConditions';
+import AdminPanel from './components/AdminPanel';
+import TrainerForm from './components/TrainerForm';
 import SectionWrapper from './components/SectionWrapper';
-import Admin from './pages/Admin';
+import ContactUs from './components/ContactUs';
 
 function App() {
   return (
     <div className="min-h-screen bg-white">
       <Routes>
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/join-as-trainer" element={<>
+          <Header />
+          <TrainerForm />
+          <Footer />
+        </>} />
+        <Route path="/admin-dashboard" element={<AdminPanel />} />
+        <Route path="/terms-and-conditions" element={<>
+          <Header />
+          <TermsAndConditions />
+          <Footer />
+        </>} />
         <Route path="/" element={
           <>
             <Header />
@@ -36,7 +50,9 @@ function App() {
               <SectionWrapper><CallToAction /></SectionWrapper>
               <SectionWrapper><About /></SectionWrapper>
               <SectionWrapper><Trainer /></SectionWrapper>
+
               <SectionWrapper><ConsultationForm /></SectionWrapper>
+              <SectionWrapper><ContactUs /></SectionWrapper>
             </main>
             <Footer />
             <FloatingSocials />

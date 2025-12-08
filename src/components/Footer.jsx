@@ -15,11 +15,15 @@ const Footer = () => {
                             Empowering you to live a healthier, happier life through personalized fitness solutions.
                         </p>
                         <div className="flex space-x-4">
-                            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                                <a key={i} href="#" className="text-gray-400 hover:text-primary transition-colors">
-                                    <Icon size={20} />
-                                </a>
-                            ))}
+                            <a href="https://www.facebook.com/people/WellwiGen/61581029265086/?sk=about" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
+                                <Facebook size={20} />
+                            </a>
+                            <a href="http://x.com/Wellwigen" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
+                                <Twitter size={20} />
+                            </a>
+                            <a href="https://www.instagram.com/wellwigen_bodyfit/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
+                                <Instagram size={20} />
+                            </a>
                         </div>
                     </div>
 
@@ -27,10 +31,11 @@ const Footer = () => {
                     <div>
                         <h4 className="font-bold text-white mb-6">Quick Links</h4>
                         <ul className="space-y-3 text-sm text-gray-400">
-                            <li><a href="#" className="hover:text-primary transition-colors">Home</a></li>
+                            <li><a href="/" className="hover:text-primary transition-colors">Home</a></li>
                             <li><a href="#about" className="hover:text-primary transition-colors">About Us</a></li>
                             <li><a href="#services" className="hover:text-primary transition-colors">Services</a></li>
-                            <li><a href="#trainer" className="hover:text-primary transition-colors">Become a Trainer</a></li>
+                            <li><a href="/join-as-trainer" className="hover:text-primary transition-colors">Become a Trainer</a></li>
+                            <li><a href="/terms-and-conditions" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
                         </ul>
                     </div>
 
@@ -55,7 +60,9 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone size={18} className="text-primary flex-shrink-0" />
-                                <span>+91 9598506627</span>
+                                <a href="https://wa.me/919598506627" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                                    +91 9598506627
+                                </a>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail size={18} className="text-primary flex-shrink-0" />

@@ -2,6 +2,21 @@ import React, { useEffect, useState } from 'react';
 
 const Hero = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const heroImages = [
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Original (Home Workout)
+        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Laptop Yoga
+        "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Trainer Gym
+        "https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80"  // Deep stretch/Mobile
+    ];
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
         const handleMouseMove = (e) => {
@@ -41,13 +56,13 @@ const Hero = () => {
                             We bring the gym to you. Expert trainers, personalized plans, and live sessions - all from the comfort of your home with Wellwigen Fitness.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="bg-dark text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                            <a href="#consultation" className="bg-dark text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
                                 Get Started Free
-                            </button>
-                            <button className="bg-white text-dark border border-gray-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2">
+                            </a>
+                            <a href="#contact" className="bg-white text-dark border border-gray-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2">
                                 <span className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                                 Live Demo
-                            </button>
+                            </a>
                         </div>
 
                         <div className="flex items-center gap-8 pt-4">
@@ -64,19 +79,31 @@ const Hero = () => {
                     </div>
 
                     {/* Image/Visuals */}
-                    <div className="relative">
+                    <div className="relative h-[600px] w-full">
+                        {/* Image Slider */}
                         <div
-                            className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white"
+                            className="relative z-10 w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white"
                             style={{ transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)` }}
                         >
-                            <img
-                                src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80"
-                                alt="Home Workout"
-                                className="w-full h-full object-cover"
-                            />
+                            {heroImages.map((img, index) => (
+                                <div 
+                                    key={index}
+                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                                        currentImageIndex === index ? 'opacity-100' : 'opacity-0'
+                                    }`}
+                                >
+                                    <img
+                                        src={img}
+                                        alt={`Slide ${index + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {/* Overlay Gradient for text readability if needed */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                </div>
+                            ))}
 
                             {/* Floating Cards */}
-                            <div className="absolute top-8 right-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float">
+                            <div className="absolute top-8 right-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float z-20">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">🔥</div>
                                     <div>
@@ -86,7 +113,7 @@ const Hero = () => {
                                 </div>
                             </div>
 
-                            <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float" style={{ animationDelay: '1s' }}>
+                            <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float z-20" style={{ animationDelay: '1s' }}>
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500">💪</div>
                                     <div>

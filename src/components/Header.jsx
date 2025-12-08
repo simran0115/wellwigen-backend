@@ -7,7 +7,8 @@ const Header = () => {
     const navLinks = [
         { name: 'Services', href: '#services' },
         { name: 'About Us', href: '#about' },
-        { name: 'Become a Trainer', href: '#trainer' },
+        // { name: 'Become a Trainer', href: '/join-as-trainer' }, // Changed to route as it's a separate page
+        { name: 'Contact', href: '#contact' }, // Added Contact link
     ];
 
     return (
@@ -33,7 +34,7 @@ const Header = () => {
                             </a>
                         ))}
                         <a
-                            href="#book"
+                            href="#consultation"
                             className="bg-dark text-white hover:bg-primary font-bold py-2 px-6 rounded-full transition-all transform hover:scale-105 shadow-md hover:shadow-lg"
                         >
                             Book Now
