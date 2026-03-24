@@ -1,136 +1,164 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Activity,
+  Brain,
+  BriefcaseMedical,
+  Utensils,
+  HeartPulse
+} from "lucide-react";
 
-const Hero = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const cardsData = [
+  {
+    step: "STEP 01",
+    title: "Track your health",
+    subtitle: "Wearables & real-time data sync",
+    gradient: "from-[#6FA8DC] to-[#4A90E2]",
+    icon: Activity
+  },
+  {
+    step: "STEP 02",
+    title: "AI analyzes your body",
+    subtitle: "Advanced clinical intelligence",
+    gradient: "from-[#6FCF97] to-[#27AE60]",
+    icon: Brain
+  },
+  {
+    step: "STEP 03",
+    title: "Doctors & labs support",
+    subtitle: "24/7 expert monitoring",
+    gradient: "from-[#A78BFA] to-[#7C3AED]",
+    icon: BriefcaseMedical
+  },
+  {
+    step: "STEP 04",
+    title: "Nutrition auto-adjusts",
+    subtitle: "Personalized diet optimization",
+    gradient: "from-[#D2A679] to-[#B08968]",
+    icon: Utensils
+  },
+  {
+    step: "STEP 05",
+    title: "Continuous monitoring",
+    subtitle: "Real-time adaptive tracking",
+    gradient: "from-[#6FA8DC] to-[#4A90E2]",
+    icon: HeartPulse
+  }
+];
 
-    const heroImages = [
-        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Original (Home Workout)
-        "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Laptop Yoga
-        "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80", // Trainer Gym
-        "https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80"  // Deep stretch/Mobile
-    ];
+export default function Hero() {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-        }, 4000);
-        return () => clearInterval(timer);
-    }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev - 1 + cardsData.length) % cardsData.length); // 👈 REVERSED DIRECTION
+    }, 4500);
 
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            setMousePosition({
-                x: (e.clientX / window.innerWidth) * 20 - 10,
-                y: (e.clientY / window.innerHeight) * 20 - 10,
-            });
-        };
+    return () => clearInterval(interval);
+  }, []);
 
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+  return (
+    <section className="w-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden">
 
-    return (
-        <section className="relative min-h-screen bg-gradient-to-br from-light to-white overflow-hidden flex items-center pt-20">
-            {/* Background Blobs */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob opacity-70"></div>
-            <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-blue-300/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000 opacity-70"></div>
+      {/* TEXT */}
+      <div className="text-center mb-20 px-6 max-w-3xl">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+          Handover Your Health <br /> to Wellwigen
+        </h1>
+        <p className="text-gray-600 mt-6 text-lg">
+          A premium clinical ecosystem that monitors, guides,
+          and adapts to your biology for total peace of mind.
+        </p>
+      </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    {/* Text Content */}
-                    <div
-                        className="space-y-8"
-                        style={{ transform: `translate(${mousePosition.x * -1}px, ${mousePosition.y * -1}px)` }}
-                    >
-                        <div className="inline-block mt-5 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
-                            <span className="text-primary font-bold">#1</span> Fitness Platform in India 🇮🇳
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-dark leading-tight">
-                            Transform Your Body <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
-                                At Home
-                            </span>
-                        </h1>
-                        <p className="text-xl text-text max-w-lg leading-relaxed">
-                            We bring the gym to you. Expert trainers, personalized plans, and live sessions - all from the comfort of your home with Wellwigen Fitness.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <a href="#consultation" className="bg-dark text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                                Get Started Free
-                            </a>
-                            <a href="#contact" className="bg-white text-dark border border-gray-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-all shadow-md hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2">
-                                <span className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-                                Live Demo
-                            </a>
-                        </div>
+      {/* BACKGROUND GLOW */}
+      <div className="absolute w-[500px] h-[500px] bg-blue-200/30 blur-3xl rounded-full top-40 left-10"></div>
+      <div className="absolute w-[400px] h-[400px] bg-purple-200/30 blur-3xl rounded-full bottom-10 right-10"></div>
 
-                        <div className="flex items-center gap-8 pt-4">
-                            <div>
-                                <p className="text-3xl font-bold text-dark">50k+</p>
-                                <p className="text-sm text-gray-500">Happy Users</p>
-                            </div>
-                            <div className="w-px h-12 bg-gray-200"></div>
-                            <div>
-                                <p className="text-3xl font-bold text-dark">4.9/5</p>
-                                <p className="text-sm text-gray-500">App Rating</p>
-                            </div>
-                        </div>
-                    </div>
+      {/* CARDS */}
+      <div className="relative w-full h-[420px] flex items-center justify-center">
 
-                    {/* Image/Visuals */}
-                    <div className="relative h-[600px] w-full">
-                        {/* Image Slider */}
-                        <div
-                            className="relative z-10 w-full h-full rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white"
-                            style={{ transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)` }}
-                        >
-                            {heroImages.map((img, index) => (
-                                <div 
-                                    key={index}
-                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                                        currentImageIndex === index ? 'opacity-100' : 'opacity-0'
-                                    }`}
-                                >
-                                    <img
-                                        src={img}
-                                        alt={`Slide ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    {/* Overlay Gradient for text readability if needed */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                                </div>
-                            ))}
+        {cardsData.map((card, index) => {
+          const Icon = card.icon;
 
-                            {/* Floating Cards */}
-                            <div className="absolute top-8 right-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float z-20">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">🔥</div>
-                                    <div>
-                                        <p className="font-bold text-dark">500 kcal</p>
-                                        <p className="text-xs text-gray-500">Burned today</p>
-                                    </div>
-                                </div>
-                            </div>
+          let offset = index - activeIndex;
 
-                            <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg animate-float z-20" style={{ animationDelay: '1s' }}>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-500">💪</div>
-                                    <div>
-                                        <p className="font-bold text-dark">Muscle Gain</p>
-                                        <p className="text-xs text-gray-500">On track</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          if (offset < -Math.floor(cardsData.length / 2)) {
+            offset += cardsData.length;
+          }
+          if (offset > Math.floor(cardsData.length / 2)) {
+            offset -= cardsData.length;
+          }
 
-                        {/* Decorative Elements behind image */}
-                        <div className="absolute -z-10 top-10 right-10 w-full h-full border-2 border-primary/30 rounded-[3rem] transform translate-x-4 translate-y-4"></div>
-                    </div>
+          const isActive = offset === 0;
+
+          return (
+            <motion.div
+              key={index}
+              initial={false}
+              animate={{
+                x: offset * 300, // more spacing
+                scale: isActive ? 1.08 : 0.88,
+                opacity: isActive ? 1 : 0.5,
+                zIndex: isActive ? 10 : 5
+              }}
+              transition={{
+                duration: 1.2,
+                ease: [0.25, 0.8, 0.25, 1]
+              }}
+              className={`absolute rounded-[32px] p-7 flex flex-col justify-between text-white 
+              bg-gradient-to-br ${card.gradient}`}
+              style={{
+                width: "300px",
+                height: "360px",
+                boxShadow: isActive
+                  ? "0 40px 100px rgba(0,0,0,0.25)"
+                  : "0 10px 25px rgba(0,0,0,0.1)"
+              }}
+            >
+              {/* DARK OVERLAY FOR TEXT VISIBILITY */}
+              <div className="absolute inset-0 bg-black/10 rounded-[32px]"></div>
+
+              {/* CONTENT */}
+              <div className="relative z-10">
+                <p className="text-xs tracking-wider text-white/80 mb-3 font-medium">
+                  {card.step}
+                </p>
+
+                <h2 className="text-xl font-semibold leading-snug">
+                  {card.title}
+                </h2>
+
+                <p className="text-sm text-white/90 mt-2">
+                  {card.subtitle}
+                </p>
+              </div>
+
+              {/* ICON */}
+              <div className="relative z-10 flex justify-center items-center flex-1">
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="bg-white/20 p-4 rounded-2xl backdrop-blur-md"
+                >
+                  <Icon size={isActive ? 44 : 36} />
+                </motion.div>
+              </div>
+
+              {/* BUTTON */}
+              <div className="relative z-10 flex justify-end">
+                <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-md hover:scale-110 transition">
+                  →
                 </div>
-            </div>
-        </section>
-    );
-};
-
-export default Hero;
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

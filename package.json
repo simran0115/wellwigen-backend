@@ -1,8 +1,20 @@
 {
   "name": "snapnfit-clone",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "npm run dev",
+  "homepage": "https://github.com/rktlbupi-tech/wellwigen-new-fresh#readme",
+  "bugs": {
+    "url": "https://github.com/rktlbupi-tech/wellwigen-new-fresh/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rktlbupi-tech/wellwigen-new-fresh.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,10 +23,10 @@
   },
   "dependencies": {
     "firebase": "^12.6.0",
-    "framer-motion": "^12.23.25",
+    "framer-motion": "^12.38.0",
     "lucide-react": "^0.556.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.10.1"
   },
