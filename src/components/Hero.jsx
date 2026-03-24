@@ -51,17 +51,30 @@ export default function Hero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev - 1 + cardsData.length) % cardsData.length); // 👈 REVERSED DIRECTION
+      setActiveIndex((prev) => (prev - 1 + cardsData.length) % cardsData.length);
     }, 4500);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="w-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden">
+    <section className="w-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden relative">
+
+      {/* ANIMATED BACKGROUND */}
+      <motion.div
+        className="absolute top-[-100px] left-[-100px] w-[500px] h-[500px] bg-blue-300 rounded-full blur-[120px] opacity-40"
+        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <motion.div
+        className="absolute bottom-[-120px] right-[-80px] w-[450px] h-[450px] bg-blue-200 rounded-full blur-[120px] opacity-40"
+        animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      />
 
       {/* TEXT */}
-      <div className="text-center mb-20 px-6 max-w-3xl">
+      <div className="text-center mb-20 px-6 max-w-3xl relative z-10">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
           Handover Your Health <br /> to Wellwigen
         </h1>
@@ -71,12 +84,8 @@ export default function Hero() {
         </p>
       </div>
 
-      {/* BACKGROUND GLOW */}
-      <div className="absolute w-[500px] h-[500px] bg-blue-200/30 blur-3xl rounded-full top-40 left-10"></div>
-      <div className="absolute w-[400px] h-[400px] bg-purple-200/30 blur-3xl rounded-full bottom-10 right-10"></div>
-
       {/* CARDS */}
-      <div className="relative w-full h-[420px] flex items-center justify-center">
+      <div className="relative w-full h-[520px] flex items-center justify-center z-10">
 
         {cardsData.map((card, index) => {
           const Icon = card.icon;
@@ -97,7 +106,7 @@ export default function Hero() {
               key={index}
               initial={false}
               animate={{
-                x: offset * 300, // more spacing
+                x: offset * 300,
                 scale: isActive ? 1.08 : 0.88,
                 opacity: isActive ? 1 : 0.5,
                 zIndex: isActive ? 10 : 5
@@ -106,17 +115,17 @@ export default function Hero() {
                 duration: 1.2,
                 ease: [0.25, 0.8, 0.25, 1]
               }}
-              className={`absolute rounded-[32px] p-7 flex flex-col justify-between text-white 
+              className={`absolute rounded-[32px] p-8 flex flex-col justify-between text-white 
               bg-gradient-to-br ${card.gradient}`}
               style={{
-                width: "300px",
-                height: "360px",
+                width: "325px",
+                height: "480px", // ✅ FINAL HEIGHT INCREASE
                 boxShadow: isActive
                   ? "0 40px 100px rgba(0,0,0,0.25)"
                   : "0 10px 25px rgba(0,0,0,0.1)"
               }}
             >
-              {/* DARK OVERLAY FOR TEXT VISIBILITY */}
+              {/* OVERLAY */}
               <div className="absolute inset-0 bg-black/10 rounded-[32px]"></div>
 
               {/* CONTENT */}
