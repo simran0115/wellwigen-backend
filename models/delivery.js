@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 
 const deliverySchema = new mongoose.Schema({
-  userId: String,
-  subscriptionId: String,
-  deliveryDate: Date,
-  status: { type: String, default: "upcoming" }
-});
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  subscriptionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subscription"
+  },
+  deliveryDate: {
+    type: Date,
+    required: true
+  },
+  status: {
+    type: String,
+    default: "upcoming"
+  }
+}, { timestamps: true });
 
 module.exports = mongoose.model("Delivery", deliverySchema);
