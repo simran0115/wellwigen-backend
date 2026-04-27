@@ -12,6 +12,12 @@ require("dotenv").config();
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const app = express();
+const cors = require("cors");
+
+app.use(cors({
+  origin: "https://wellwigenportfolio-3e9d.vercel.app/",
+  credentials: true
+}));
 
 app.use(cors());
 app.use(express.json());
