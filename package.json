@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for Wellwigen Vendor System",
   "main": "server.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
@@ -11,11 +11,15 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^2.4.3",
+    "bullmq": "^5.76.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^4.18.2",
+    "ioredis": "^5.10.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^7.0.0",
+    "node-cron": "^4.2.1",
+    "razorpay": "^2.9.6",
     "socket.io": "^4.8.3"
   },
   "devDependencies": {

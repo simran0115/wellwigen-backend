@@ -1,5 +1,5 @@
-// utils/logger.js
-const { createLogger, format, transports } = require("winston");
+import winston from "winston";
+const { createLogger, format, transports } = winston;
 
 const logger = createLogger({
   level: "info",
@@ -13,4 +13,4 @@ const logger = createLogger({
   ]
 });
 
-module.exports = logger;
+export default logger;
