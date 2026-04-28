@@ -13,8 +13,12 @@ dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const app = express();
 
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',') 
+  : ["http://localhost:5173", "https://wellwigenportfolio-3e9d.vercel.app"];
+
 app.use(cors({
-  origin: "https://wellwigenportfolio-3e9d.vercel.app",
+  origin: allowedOrigins,
   credentials: true
 }));
 
@@ -25,7 +29,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
+    credentials: true
   },
 });
 
