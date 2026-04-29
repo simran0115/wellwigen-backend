@@ -9,6 +9,10 @@ const deliverySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Subscription"
   },
+  vendorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Vendor"
+  },
   deliveryDate: {
     type: Date,
     required: true

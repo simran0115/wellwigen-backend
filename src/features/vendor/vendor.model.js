@@ -20,6 +20,11 @@ const vendorSchema = new mongoose.Schema(
       default: "pending",
     },
 
+    type: {
+      type: String,
+      enum: ["NUTRITION", "VENDOR", "DOCTOR", "LAB", "PHARMACY"],
+      default: "VENDOR"
+    },
     role: { type: String, default: "vendor" },
   },
   { timestamps: true }

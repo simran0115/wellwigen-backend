@@ -89,6 +89,7 @@ export const loginVendor = async (req, res) => {
         email: vendor.email,
         storeName: vendor.storeName,
         status: vendor.status,
+        type: vendor.type,
       },
     });
   } catch (err) {

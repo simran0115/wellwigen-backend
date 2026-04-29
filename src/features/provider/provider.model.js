@@ -2,17 +2,20 @@ import mongoose from "mongoose";
 
 const providerSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // If linked to a main User account
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     type: {
       type: String,
-      enum: ["FRUIT_VEG_SHOP", "DOCTOR", "LAB", "TRAINER", "PHARMACY"],
+      enum: ["NUTRITION", "VENDOR", "DOCTOR", "LAB", "TRAINER", "PHARMACY"],
       required: true,
     },
-    businessName: { type: String, required: true },
-    ownerName: { type: String, required: true },
-    phone: { type: String, required: true, unique: true },
+    businessName: { type: String },
+    ownerName: { type: String },
+    phone: { type: String, unique: true, sparse: true },
     email: { type: String },
     passwordHash: { type: String },
+    companyType: { type: String, default: 'Individual' },
+    experience: String,
+    onboardingStep: { type: Number, default: 1 },
 
     address: {
       street: String,
@@ -22,9 +25,26 @@ const providerSchema = new mongoose.Schema(
     },
     location: {
       type: { type: String, enum: ["Point"], default: "Point" },
-      coordinates: { type: [Number], index: "2dsphere" }, // [longitude, latitude]
+      coordinates: { type: [Number], index: "2dsphere" },
     },
     serviceRadiusKm: { type: Number, default: 10 },
+
+    // Role Specific Qualifications
+    specialization: String,
+    consultationFee: Number,
+    hospitalName: String,
+    labCategory: String,
+    homeCollection: String,
+    shopCategory: String,
+    gstNo: String,
+    deliveryRadius: String,
+    is24x7: String,
+    pharmacistName: String,
+    operatingHoursText: String,
+    foodCategory: String,
+    sourcing: String,
+    deliveryType: String,
+    dietaryFocus: String,
 
     // Licenses based on provider type
     licenseNumber: String,
@@ -58,7 +78,6 @@ const providerSchema = new mongoose.Schema(
     capacityLimit: { type: Number, default: 50 },
     currentLoad: { type: Number, default: 0 },
 
-    // Bank Details (Encrypted in a real app)
     bankDetails: {
       accountNo: String,
       ifsc: String,
@@ -66,7 +85,7 @@ const providerSchema = new mongoose.Schema(
     },
 
     operatingHours: {
-      open: String, // e.g., "09:00"
+      open: String,
       close: String, // e.g., "18:00"
       days: [String], // ["Monday", "Tuesday"]
     },

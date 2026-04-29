@@ -14,7 +14,7 @@ router.post("/add", async (req, res) => {
     const { vendorId, customerName, product, deliveryDate } = req.body;
 
     const delivery = await Delivery.create({
-      vendor: vendorId,
+      vendorId: vendorId,
       customerName,
       product,
       deliveryDate,
@@ -40,7 +40,7 @@ router.get("/all", async (req, res) => {
 router.get("/vendor/:vendorId", async (req, res) => {
   try {
     const deliveries = await Delivery.find({
-      vendor: req.params.vendorId,
+      vendorId: req.params.vendorId,
     });
 
     res.json(deliveries);
