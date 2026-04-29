@@ -1,4 +1,4 @@
-const Delivery = require("../models/Delivery");
+import Delivery from "../../features/delivery/delivery.model.js";
 
 function getNextDates(startDate, daysOfWeek) {
   let result = [];
@@ -32,4 +32,4 @@ async function generateSchedule(subscription) {
   await Delivery.insertMany(deliveries);
 }
 
-module.exports = { generateSchedule };
+export { generateSchedule };

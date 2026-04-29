@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const vendorSchema = new mongoose.Schema(
   {
@@ -20,9 +20,14 @@ const vendorSchema = new mongoose.Schema(
       default: "pending",
     },
 
+    type: {
+      type: String,
+      enum: ["NUTRITION", "VENDOR", "DOCTOR", "LAB", "PHARMACY"],
+      default: "VENDOR"
+    },
     role: { type: String, default: "vendor" },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Vendor", vendorSchema);
+export default mongoose.model("Vendor", vendorSchema);

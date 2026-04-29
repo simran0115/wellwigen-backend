@@ -1,15 +1,15 @@
-const Vendor = require("../models/Vendor");
-const Delivery = require("../models/Delivery");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import Vendor from "./vendor.model.js";
+import Delivery from "../delivery/delivery.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-exports.registerVendor = async (req, res) => {
+export const registerVendor = async (req, res) => {
   try {
     let { name, email, password, storeName, storeAddress, phone } = req.body;
 
     if (!name || !email || !password || !storeName || !storeAddress || !phone) {
       return res.status(400).json({
-        message: "All fields are required"
+        message: "All fields are required",
       });
     }
 
@@ -18,7 +18,7 @@ exports.registerVendor = async (req, res) => {
     const existing = await Vendor.findOne({ email });
     if (existing) {
       return res.status(400).json({
-        message: "Vendor already exists"
+        message: "Vendor already exists",
       });
     }
 
@@ -31,23 +31,22 @@ exports.registerVendor = async (req, res) => {
       storeName,
       storeAddress,
       phone,
-      status: "pending"
+      status: "pending",
     });
 
     res.status(201).json({
       message: "Application submitted. Wait for admin approval.",
-      vendorId: vendor._id
+      vendorId: vendor._id,
     });
-
   } catch (err) {
     console.error("Register Error:", err);
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
     });
   }
 };
 
-exports.loginVendor = async (req, res) => {
+export const loginVendor = async (req, res) => {
   try {
     let { email, password } = req.body;
 
@@ -89,17 +88,17 @@ exports.loginVendor = async (req, res) => {
         name: vendor.name,
         email: vendor.email,
         storeName: vendor.storeName,
-        status: vendor.status
-      }
+        status: vendor.status,
+        type: vendor.type,
+      },
     });
-
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.adminAddVendor = async (req, res) => {
+export const adminAddVendor = async (req, res) => {
   try {
     let { name, email, password, storeName, storeAddress, phone } = req.body;
 
@@ -123,22 +122,20 @@ exports.adminAddVendor = async (req, res) => {
       storeName,
       storeAddress,
       phone,
-      status: "approved"
+      status: "approved",
     });
 
     res.status(201).json({
       message: "Vendor created and approved successfully",
-      vendor
+      vendor,
     });
-
   } catch (err) {
     console.error("Admin Add Vendor Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// ================== ✅ NEW FUNCTION ==================
-exports.approveVendor = async (req, res) => {
+export const approveVendor = async (req, res) => {
   try {
     const { vendorId } = req.params;
 
@@ -148,38 +145,33 @@ exports.approveVendor = async (req, res) => {
       return res.status(404).json({ message: "Vendor not found" });
     }
 
-    // ✅ approve vendor
     vendor.status = "approved";
     await vendor.save();
 
-    // ================= SOCKET =================
     const io = req.app.get("io");
     const users = req.app.get("users");
 
-    const socketId = users[vendorId]; // match vendorId
+    const socketId = users[vendorId];
 
     if (socketId) {
       io.to(socketId).emit("vendorApproved", {
-        message: "🎉 Your account has been approved!"
+        message: "🎉 Your account has been approved!",
       });
     }
-    // ==========================================
 
     res.json({ message: "Vendor approved successfully" });
-
   } catch (err) {
     console.error("Approve Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
-// ====================================================
 
-exports.getVendorDeliveries = async (req, res) => {
+export const getVendorDeliveries = async (req, res) => {
   try {
     const deliveries = await Delivery.find().sort({ deliveryDate: 1 });
     res.json({
       message: "Deliveries fetched successfully",
-      deliveries
+      deliveries,
     });
   } catch (err) {
     console.error("Fetch deliveries error:", err);

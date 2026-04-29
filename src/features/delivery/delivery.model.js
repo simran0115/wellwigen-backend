@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const deliverySchema = new mongoose.Schema({
   userId: {
@@ -8,6 +8,10 @@ const deliverySchema = new mongoose.Schema({
   subscriptionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Subscription"
+  },
+  vendorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Vendor"
   },
   deliveryDate: {
     type: Date,
@@ -19,4 +23,4 @@ const deliverySchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Delivery", deliverySchema);
+export default mongoose.model("Delivery", deliverySchema);

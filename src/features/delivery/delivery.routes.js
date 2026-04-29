@@ -1,13 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const Delivery = require("../models/Delivery");
+import express from "express";
+import Delivery from "./delivery.model.js";
 
+const router = express.Router();
 
 // ✅ TEST ROUTE
 router.get("/test", (req, res) => {
   res.send("Delivery route working ✅");
 });
-
 
 // ✅ ADD DELIVERY (Admin assigns to vendor)
 router.post("/add", async (req, res) => {
@@ -15,10 +14,10 @@ router.post("/add", async (req, res) => {
     const { vendorId, customerName, product, deliveryDate } = req.body;
 
     const delivery = await Delivery.create({
-      vendor: vendorId,
+      vendorId: vendorId,
       customerName,
       product,
-      deliveryDate
+      deliveryDate,
     });
 
     res.json(delivery);
@@ -26,7 +25,6 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 // ✅ GET ALL DELIVERIES (for testing)
 router.get("/all", async (req, res) => {
@@ -38,12 +36,11 @@ router.get("/all", async (req, res) => {
   }
 });
 
-
 // ✅ GET DELIVERIES BY VENDOR
 router.get("/vendor/:vendorId", async (req, res) => {
   try {
     const deliveries = await Delivery.find({
-      vendor: req.params.vendorId
+      vendorId: req.params.vendorId,
     });
 
     res.json(deliveries);
@@ -52,5 +49,4 @@ router.get("/vendor/:vendorId", async (req, res) => {
   }
 });
 
-
-module.exports = router;
+export default router;

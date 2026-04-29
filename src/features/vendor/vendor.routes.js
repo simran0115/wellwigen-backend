@@ -1,15 +1,14 @@
-const express = require("express");
-const router = express.Router();
-
-const authMiddleware = require("../middleware/authMiddleware");
-const Vendor = require("../models/Vendor");
-
-const {
+import express from "express";
+import authMiddleware from "../../core/middleware/authMiddleware.js";
+import Vendor from "./vendor.model.js";
+import {
   registerVendor,
   loginVendor,
   adminAddVendor,
-  getVendorDeliveries
-} = require("../controllers/vendorController");
+  getVendorDeliveries,
+} from "./vendor.controller.js";
+
+const router = express.Router();
 
 // 🔹 Public Routes
 router.post("/register", registerVendor);
@@ -22,25 +21,23 @@ router.get("/profile", authMiddleware, async (req, res) => {
 
     if (!vendor) {
       return res.status(404).json({
-        message: "Vendor not found"
+        message: "Vendor not found",
       });
     }
 
     res.json({
       message: "Vendor profile fetched successfully",
-      vendor
+      vendor,
     });
-
   } catch (error) {
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
     });
   }
 });
 
 // 🚚 Vendor Deliveries
 router.get("/deliveries", authMiddleware, getVendorDeliveries);
-
 
 // ================= ADMIN ROUTES =================
 
@@ -53,15 +50,14 @@ router.get("/all", async (req, res) => {
     const vendors = await Vendor.find().select("-password");
 
     res.json({
-      vendors
+      vendors,
     });
   } catch (err) {
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
     });
   }
 });
-
 
 // 🔹 Approve / Reject vendor
 router.put("/approve/:id", async (req, res) => {
@@ -72,7 +68,7 @@ router.put("/approve/:id", async (req, res) => {
 
     if (!vendor) {
       return res.status(404).json({
-        message: "Vendor not found"
+        message: "Vendor not found",
       });
     }
 
@@ -80,15 +76,14 @@ router.put("/approve/:id", async (req, res) => {
     await vendor.save();
 
     res.json({
-      message: `Vendor ${status} successfully`
+      message: `Vendor ${status} successfully`,
     });
-
   } catch (err) {
     console.error("Approve error:", err);
     res.status(500).json({
-      message: err.message || "Server error"
+      message: err.message || "Server error",
     });
   }
 });
 
-module.exports = router;
+export default router;
