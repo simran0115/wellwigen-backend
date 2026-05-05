@@ -4,12 +4,14 @@ import {
   saveProgress,
   uploadDocuments,
   getMyProfile,
-  updateAvailability
+  updateAvailability,
+  loginProvider
 } from "./provider.controller.js";
 import { getPendingProviders, verifyProvider } from "./provider.controller.js";
 
 const router = express.Router();
 
+router.post("/login", loginProvider);
 router.post("/register", registerProvider);
 router.post("/save-progress", saveProgress);
 router.post("/upload-documents", uploadDocuments);

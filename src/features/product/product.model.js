@@ -19,9 +19,19 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   category: {
-    type: String,
-    enum: ["Medicine", "Checkup", "Equipment", "Produce", "Supplement"],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
     required: true
+  },
+  subcategory: String,
+  benefits: {
+    type: String,
+    default: ""
+  },
+  healthGoal: {
+    type: String,
+    enum: ["Weight Loss", "Muscle Gain", "Immunity Boost", "Heart Health", "Brain Health", "Digestion", "Diabetes Control"],
+    default: "Immunity Boost"
   },
   isVerified: {
     type: Boolean,

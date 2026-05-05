@@ -3,21 +3,42 @@ import Product from "./product.model.js";
 // ➕ Add Product
 export const addProduct = async (req, res) => {
   try {
-    const { name, price, quantity } = req.body;
+    const { name, price, quantity, category, benefits, healthGoal } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-    const product = await Product.create({
+    // Edge Case: Validate input
+    if (price < 0 || quantity < 0) {
+      return res.status(400).json({ message: "Price and quantity cannot be negative" });
+    }
+
+    if (!category) {
+      return res.status(400).json({ message: "Please select a category" });
+    }
+
+    const productData = {
       name,
       price,
       quantity,
-      vendorId: req.vendor.id, // 🔐 from JWT
-    });
+      category,
+      benefits: benefits || "",
+      healthGoal: healthGoal || "Immunity Boost",
+      providerId: req.vendor.id,
+      status: "approved",
+      images: imageUrl ? [imageUrl] : []
+    };
+
+    const product = await Product.create(productData);
 
     res.status(201).json({
-      message: "Product added",
+      message: "Product added successfully",
       product,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Error in addProduct:", error);
+    res.status(500).json({ 
+      message: "Server error during product creation",
+      error: error.message 
+    });
   }
 };
 
@@ -25,8 +46,8 @@ export const addProduct = async (req, res) => {
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find({
-      vendorId: req.vendor.id,
-    });
+      providerId: req.vendor.id,
+    }).populate("category", "name");
 
     res.json(products);
   } catch (error) {
@@ -44,7 +65,7 @@ export const deleteProduct = async (req, res) => {
     }
 
     // 🔐 Check ownership
-    if (product.vendorId.toString() !== req.vendor.id) {
+    if (product.providerId.toString() !== req.vendor.id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
